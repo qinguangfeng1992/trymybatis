@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qinguangfeng.mapper.TblstudentMapper">
+    <select id="selectAll" resultType="Student">
+        select * from tblstudent
+    </select>
+
+
+    <select id="selectConCat" resultType="Student">
+        select * from tblstudent
+        <where>
+            <if test="stuName!=null">
+            and stuName LIKE concat('%',#{stuName},'%')
+            </if>
+
+            <if test="maxAge!=0">
+            and stuAge&lt;=#{maxAge}
+            </if>
+
+            <if test="minAge!=0">
+                and stuAge&gt;=#{minAge}
+            </if>
+
+            <if test="gender!=null">
+            and stuSex=#{gender}
+            </if>
+        </where>
+    </select>
+
+
+
+    <insert id="addStu" parameterType="Student">
+        INSERT INTO tblstudent(stuId,stuName,stuAge,stuSex,stuPwd) VALUE (#{stuId},#{stuName},#{stuAge},#{stuSex},#{stuPwd})
+
+    </insert>
+
+    <update id="updateStu" parameterType="Student">
+        UPDATE tblstudent set stuName=#{stuName},stuAge=#{stuAge},stuSex=#{stuSex},stuPwd=#{stuPwd} WHERE stuId=#{stuId}
+
+    </update>
+
+    <delete id="deleteStu" parameterType="Integer">
+        DELETE FROM tblstudent WHERE stuId=#{stuId}
+
+    </delete>
+</mapper>

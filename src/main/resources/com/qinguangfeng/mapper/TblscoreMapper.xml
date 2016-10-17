@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qinguangfeng.mapper.TblscoreMapper">
+
+    <select id="selectScoAll" resultType="Score">
+
+       SELECT * FROM Tblscore
+
+    </select>
+
+    <select id="selectChoose" resultType="Score">
+
+        SELECT * FROM Tblscore 
+        <where>
+            <choose>
+                <when test="1==sco">
+                    and score between 40 and 60
+                </when>
+
+                <when test="2==sco">
+                    and score between 60 and 80
+                </when>
+
+                <when test="3==sco">
+                    and score  &gt;=80
+                </when>
+                <otherwise>
+                    and score &lt;40
+
+                </otherwise>
+               <!-- 什么都不想就是默认otherwise？-->
+  </choose>
+            
+            
+        </where>
+
+    </select>
+
+
+
+
+
+
+    <insert id="selectById" parameterType="Score">
+        INSERT INTO Tblscore VALUE (#{stuId},#{courseId},#{pkScore},#{score})
+
+
+    </insert>
+
+    <update id="update" parameterType="Score">
+UPDATE Tblscore set stuId=#{stuId},courseId=#{courseId},score=#{score} WHERE pkScore=#{pkScore}
+
+    </update>
+
+    <delete id="delete" parameterType="Integer">
+        DELETE FROM Tblscore WHERE pkScore=#{pkScore}
+
+    </delete>
+</mapper>

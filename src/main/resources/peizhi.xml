@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <typeAliases>
+        <typeAlias type="com.qinguangfeng.entity.Tblstudent" alias="Student"/>
+        <typeAlias type="com.qinguangfeng.entity.Tblcourse" alias="Course"/>
+        <typeAlias type="com.qinguangfeng.entity.Tblteacher" alias="Teacher"/>
+        <typeAlias type="com.qinguangfeng.entity.Tblscore" alias="Score"/>
+    </typeAliases>
+
+    <environments default="development">
+        <environment id="development">
+            <transactionManager type="JDBC"/>
+            <dataSource type="POOLED">
+                <property name="driver" value="com.mysql.jdbc.Driver"/>
+                <property name="url" value="jdbc:mysql://localhost:3306/mysqll"/>
+                <property name="username" value="root"/>
+                <property name="password" value="hzit"/>
+            </dataSource>
+        </environment>
+    </environments>
+
+    <mappers>
+        <mapper resource="com/qinguangfeng/mapper/TblstudentMapper.xml"></mapper>
+
+        <mapper resource="com/qinguangfeng/mapper/TblcourseMapper.xml"></mapper>
+
+        <mapper resource="com/qinguangfeng/mapper/TblteacherMapper.xml"></mapper>
+
+        <mapper resource="com/qinguangfeng/mapper/TblscoreMapper.xml"></mapper>
+    </mappers>
+
+</configuration>

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qinguangfeng.mapper.TblteacherMapper">
+
+    <select id="selectTeaAl" resultType="Teacher">
+          SELECT * FROM Tblteacher
+    </select>
+    <resultMap id="TblteacherMa" type="Teacher">
+        <result column="teaId" property="teaId"></result>
+        <result column="teaName" property="teaName"></result>
+
+        <collection property="tblcourseList" ofType="Course">
+            <result column="courseId" property="courseId"></result>
+            <result column="courseName" property="courseName"></result>
+            <result column="teaId" property="teaId"></result>
+        </collection>
+
+    </resultMap>
+
+    <select id="selectTeaAll" resultMap="TblteacherMap">
+
+      /* 先查单表*/
+      SELECT * FROM Tblteacher
+    </select>
+<resultMap id="TblteacherMap" type="Teacher">
+    <result column="teaId" property="teaId"></result>
+    <result column="teaName" property="teaName"></result>
+
+    <collection property="tblcourseList"  ofType="Course" column="teaId" select="getCourse">
+    </collection>
+
+</resultMap>
+    <select id="getCourse" parameterType="String" resultType="Course">
+/*再查另一张表*/
+     SELECT * FROM  Tblcourse WHERE teaId=#{teaId}
+
+    </select>
+
+
+
+
+
+    <insert id="selectById" parameterType="Teacher">
+        INSERT INTO tblteacher VALUE (#{teaId},#{teaName})
+
+
+    </insert>
+
+    <update id="update" parameterType="Teacher">
+UPDATE tblteacher set teaName=#{teaName} WHERE teaId=#{teaId}
+
+    </update>
+
+    <delete id="delete" parameterType="Integer">
+        DELETE FROM tblteacher WHERE teaId=#{teaId}
+
+    </delete>
+</mapper>

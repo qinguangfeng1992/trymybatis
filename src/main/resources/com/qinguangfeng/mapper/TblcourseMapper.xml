@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qinguangfeng.mapper.TblcourseMapper">
+
+    <select id="selectCourAll" resultType="Course">
+         SELECT * FROM Tblcourse JOIN Tblteacher ON Tblcourse.teaid=Tblteacher.teaid;
+    </select>
+
+    <resultMap id="TblcourseMap" type="Course">
+        <result column="courseId" property="courseId" ></result>
+        <result column="courseName" property="courseName"></result>
+
+        <association property="tblteacher" column="teaId" select="getTeacher">
+
+        </association>
+
+    </resultMap>
+    <select id="getTeacher" parameterType="String" resultType="Teacher">
+        SELECT * FROM  tblTeacher WHERE teaId=#{0}/*???????*/
+
+    </select>
+    <!--第一个丢Map的if标签的模糊查询-->
+    <select id="selectIf" resultType="Course" parameterType="Map">
+
+        <if test="courseName==null">
+        SELECT * FROM tblcourse WHERE  CourseId=#{courseId}
+
+    </if>
+        <if test="courseName!=null">
+        SELECT * FROM tblcourse WHERE CourseName=#{courseName} AND CourseId=#{courseId}
+    </if>
+
+    </select>
+
+    <!--第二个丢Tblcourse的if标签的模糊查询-->
+    <select id="selectTblIf" parameterType="Course" resultType="Course">
+        SELECT * FROM tblcourse WHERE 1=1
+
+        <if test="courseId!=null">
+
+            AND courseId = #{courseId}
+        </if>
+        <if test="courseName!=null">
+
+             AND courseName = #{courseName}
+        </if>
+        <if test="teaId!=null">
+
+            AND teaId = #{teaId}
+        </if>
+
+
+    </select>
+
+<!--增加的标签-->
+    <insert id="selectById" parameterType="Course">
+        INSERT INTO tblcourse VALUE (#{courseId},#{courseName},#{teaId})
+
+
+    </insert>
+
+    <!--修改的标签-->
+    <update id="update" parameterType="Course">
+        UPDATE tblcourse set courseName=#{courseName},teaId=#{teaId} WHERE courseId=#{courseId}
+
+    </update>
+    <!--删除的标签-->
+    <delete id="delete" parameterType="Integer">
+        DELETE FROM tblcourse WHERE courseId=#{courseId}
+
+    </delete>
+</mapper>
